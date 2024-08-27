@@ -62,3 +62,9 @@ plt.ylabel('Expected Goals Against')
 plt.title('Team Clusters based on Expected Goals')
 plt.colorbar(scatter)
 plt.show()
+
+# Print cluster centroids
+centroids = scaler.inverse_transform(kmeans.cluster_centers_)
+centroid_df = pd.DataFrame(centroids, columns=cluster_features)
+print("Cluster Centroids:")
+print(centroid_df)
