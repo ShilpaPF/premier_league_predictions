@@ -172,3 +172,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # Check for NaN values
 print("Columns with NaN values:")
 print(X.isna().sum())
+
+# Impute missing values
+imputer = SimpleImputer(strategy='mean')
+X_train_imputed = imputer.fit_transform(X_train)
+X_test_imputed = imputer.transform(X_test)
