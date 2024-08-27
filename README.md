@@ -25,3 +25,16 @@ This project aims to analyze Premier League football data to predict match outco
 - Random Forest model for match outcome prediction.
 - Feature importance analysis.
 
+## Key Functions
+
+### remove_outliers(df, columns)
+
+Removes outliers using the Interquartile Range (IQR) method.
+
+**Parameters:**
+- df (pandas.DataFrame): The input dataframe.
+- columns (list): List of column names to check.
+
+**Returns:**
+- pandas.DataFrame: Dataframe with outliers removed.
+
