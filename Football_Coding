@@ -137,3 +137,4 @@ print(team_avg_goals.head(10)
 
 plt.tight_layout()
 plt.show()
+
