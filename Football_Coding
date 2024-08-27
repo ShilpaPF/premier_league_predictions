@@ -68,3 +68,9 @@ centroids = scaler.inverse_transform(kmeans.cluster_centers_)
 centroid_df = pd.DataFrame(centroids, columns=cluster_features)
 print("Cluster Centroids:")
 print(centroid_df)
+
+# Analyze clusters
+for i in range(3):
+    print(f"\nCluster {i}:")
+    print(df[df['Cluster'] == i]['Team'].value_counts())
+    print(df[df['Cluster'] == i][cluster_features].mean())
