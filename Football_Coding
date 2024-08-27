@@ -229,3 +229,38 @@ sns.heatmap(df[features].corr(), annot=True, cmap='coolwarm', vmin=-1, vmax=1, c
 plt.title('Correlation Heatmap of Features', fontsize=16)
 plt.tight_layout()
 plt.show()
+
+# Adjacent graphs for full-time home & away goals, half-time home & away goals, and home & away shots on target
+fig, axs = plt.subplots(3, 2, figsize=(8, 7))
+fig.suptitle('Home vs Away Statistics', fontsize=20)
+
+# Full-time goals
+sns.histplot(data=df[df['Venue'] == 0], x='Goals For', kde=True, color='blue', ax=axs[0, 0])
+axs[0, 0].set_title('Full-time Goals (Home)', fontsize=14)
+axs[0, 0].set_xlabel('Goals')
+sns.histplot(data=df[df['Venue'] == 1], x='Goals For', kde=True, color='orange', ax=axs[0, 1])
+axs[0, 1].set_title('Full-time Goals (Away)', fontsize=14)
+axs[0, 1].set_xlabel('Goals')
+
+# Half-time goals (assuming 'HG' is the column for half-time goals)
+if 'HG' in df.columns:
+    sns.histplot(data=df[df['Venue'] == 0], x='HG', kde=True, color='blue', ax=axs[1, 0])
+    axs[1, 0].set_title('Half-time Goals (Home)', fontsize=14)
+    axs[1, 0].set_xlabel('Goals')
+    sns.histplot(data=df[df['Venue'] == 1], x='HG', kde=True, color='orange', ax=axs[1, 1])
+    axs[1, 1].set_title('Half-time Goals (Away)', fontsize=14)
+    axs[1, 1].set_xlabel('Goals')
+else:
+    axs[1, 0].text(0.5, 0.5, 'Half-time goals data not available', ha='center', va='center')
+    axs[1, 1].text(0.5, 0.5, 'Half-time goals data not available', ha='center', va='center')
+
+# Shots on target
+sns.histplot(data=df[df['Venue'] == 0], x='Shots on Target', kde=True, color='blue', ax=axs[2, 0])
+axs[2, 0].set_title('Shots on Target (Home)', fontsize=14)
+axs[2, 0].set_xlabel('Number of Shots')
+sns.histplot(data=df[df['Venue'] == 1], x='Shots on Target', kde=True, color='orange', ax=axs[2, 1])
+axs[2, 1].set_title('Shots on Target (Away)', fontsize=14)
+axs[2, 1].set_xlabel('Number of Shots')
+
+plt.tight_layout()
+plt.show()
