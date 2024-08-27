@@ -182,3 +182,16 @@ X_test_imputed = imputer.transform(X_test)
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train_imputed)
 X_test_scaled = scaler.transform(X_test_imputed)
+
+
+# Define models
+rf = RandomForestClassifier(random_state=42)
+gb = GradientBoostingClassifier(random_state=42)
+svm = SVC(probability=True, random_state=42)
+
+# Create a dictionary of models
+models = {
+    'Random Forest': rf,
+    'Gradient Boosting': gb,
+    'SVM': svm
+}
