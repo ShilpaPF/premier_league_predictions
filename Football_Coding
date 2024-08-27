@@ -268,3 +268,13 @@ plt.show()
 # Create the home vs away performance plot
 plt.figure(figsize=(8, 5))
 df['Points'] = df['Result'].map({0: 0, 1: 1, 2: 3})
+
+# Calculate home and away performance separately
+home_performance = df[df['Venue'] == 0].groupby('Team')['Points'].mean()
+away_performance = df[df['Venue'] == 1].groupby('Team')['Points'].mean()
+
+# Combine home and away performance
+performance = pd.DataFrame({
+    'Home': home_performance,
+    'Away': away_performance
+}).reset_index()
