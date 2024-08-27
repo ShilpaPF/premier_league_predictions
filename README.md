@@ -17,4 +17,11 @@ The dataset includes 29 features.
 
 This project aims to analyze Premier League football data to predict match outcomes and provide insights into team performance. It uses machine learning techniques, specifically a Random Forest classifier, to identify key factors influencing match results and visualizes various aspects of team and player statistics.
 
+## Features
+
+- Data preprocessing and feature engineering.
+- Exploratory Data Analysis (EDA) with visualizations.
+- Outlier removal using the IQR method.
+- Random Forest model for match outcome prediction.
+- Feature importance analysis.
 
