@@ -18,3 +18,6 @@ from sklearn.preprocessing import StandardScaler
 # Load the dataset
 file_path = "/content/drive/MyDrive/Premier_League_Data.csv"
 df = pd.read_csv(file_path)
+
+# Create a mapping from numeric codes to actual team names
+team_mapping = dict(enumerate(df['Team'].unique()))
