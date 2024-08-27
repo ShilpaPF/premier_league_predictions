@@ -80,3 +80,6 @@ le = LabelEncoder()
 categorical_cols = ['Team', 'Opponent', 'Venue', 'Result', 'Captain', 'Formation', 'Referee', 'Competition', 'Round', 'Day']
 for col in categorical_cols:
     df[col] = le.fit_transform(df[col].astype(str))
+
+# Map team numbers back to names
+df['Team'] = df['Team'].map(team_mapping)
