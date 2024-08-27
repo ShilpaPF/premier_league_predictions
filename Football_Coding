@@ -108,3 +108,8 @@ print(df.dtypes)
 # Identify numeric columns
 numeric_cols = df.select_dtypes(include=[np.number]).columns
 print("\nNumeric columns found:", numeric_cols.tolist())
+
+# Calculate average goals scored by each team
+team_avg_goals = df.groupby('Team')['Goals For'].mean().sort_values(ascending=False)
+# Select top 10 scoring teams
+top_10_teams = team_avg_goals.head(10).index
