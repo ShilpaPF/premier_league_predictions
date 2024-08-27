@@ -264,3 +264,7 @@ axs[2, 1].set_xlabel('Number of Shots')
 
 plt.tight_layout()
 plt.show()
+
+# Create the home vs away performance plot
+plt.figure(figsize=(8, 5))
+df['Points'] = df['Result'].map({0: 0, 1: 1, 2: 3})
