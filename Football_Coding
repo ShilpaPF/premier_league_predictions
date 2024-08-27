@@ -200,6 +200,15 @@ models = {
 for name, model in models.items():
     model.fit(X_train_scaled, y_train)
     y_pred = model.predict(X_test_scaled)
+
+# Feature importance (for Random Forest)
+feature_importance = pd.DataFrame({
+    'feature': features,
+    'importance': rf.feature_importances_
+}).sort_values('importance', ascending=False)
+
+print("\nTop 5 Most Important Features:")
+print(feature_importance.head())
     accuracy = accuracy_score(y_test, y_pred)
     print(f"\n{name} Accuracy: {accuracy:.4f}")
     print(f"{name} Classification Report:")
