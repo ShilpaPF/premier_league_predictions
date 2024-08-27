@@ -159,3 +159,14 @@ plt.bar(['Home', 'Away'], [home_performance, away_performance])
 plt.title('Average Goals Scored: Home vs Away', fontsize=14)
 plt.ylabel('Average Goals', fontsize=12)
 plt.show()
+
+# Prepare data for modeling
+features = ['Venue', 'Opponent', 'Expected Goals', 'Expected Goals Against', 'Possession', 'Shots',
+            'Shots on Target', 'Distance', 'Free Kicks', 'Penalty Kicks', 'Penalty Kicks Attempted',
+            'Goal_Difference', 'Goal_Ratio', 'Shot_Accuracy', 'Expected_Goal_Difference']
+X = df[features]
+y = df['Result']
+
+# Check for NaN values
+print("Columns with NaN values:")
+print(X.isna().sum())
