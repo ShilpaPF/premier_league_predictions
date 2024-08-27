@@ -113,3 +113,23 @@ print("\nNumeric columns found:", numeric_cols.tolist())
 team_avg_goals = df.groupby('Team')['Goals For'].mean().sort_values(ascending=False)
 # Select top 10 scoring teams
 top_10_teams = team_avg_goals.head(10).index
+
+# Create a 2x5 subplot for the top 10 teams
+fig, axes = plt.subplots(2, 5, figsize=(20, 10))
+fig.suptitle('Distribution of Goals Scored by Top 10 Teams', fontsize=16)
+
+for i, team in enumerate(top_10_teams):
+    row = i // 5
+    col = i % 5
+    ax = axes[row, col]
+
+    team_data = df[df['Team'] == team]
+    sns.histplot(data=team_data, x='Goals For', kde=True, bins=range(0, int(team_data['Goals For'].max()) + 2),
+                 color=plt.cm.Set3(i), ax=ax)
+
+    ax.set_title(team_mapping.get(team, f'Team {team}'), fontsize=10)
+    ax.set_xlabel('Goals Scored', fontsize=8)
+    ax.set_ylabel('Count', fontsize=8)
+
+plt.tight_layout()
+plt.show()
