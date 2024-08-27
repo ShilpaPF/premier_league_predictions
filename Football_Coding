@@ -101,3 +101,10 @@ print("Shape before removing outliers:", df.shape)
 df = remove_outliers(df, numeric_columns)
 print("Shape after removing outliers:", df.shape)
 
+# Display all column names and their data types
+print("All columns and their data types:")
+print(df.dtypes)
+
+# Identify numeric columns
+numeric_cols = df.select_dtypes(include=[np.number]).columns
+print("\nNumeric columns found:", numeric_cols.tolist())
