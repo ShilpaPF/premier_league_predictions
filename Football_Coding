@@ -278,3 +278,17 @@ performance = pd.DataFrame({
     'Home': home_performance,
     'Away': away_performance
 }).reset_index()
+
+# Sort teams by total performance (home + away)
+performance['Total'] = performance['Home'] + performance['Away']
+performance = performance.sort_values('Total', ascending=False)
+# Create the plot
+sns.barplot(data=performance, x='Team', y='Home', color='blue', label='Home')
+sns.barplot(data=performance, x='Team', y='Away', color='orange', label='Away')
+plt.title('Home vs Away Performance for Teams', fontsize=16)
+plt.xlabel('Team', fontsize=12)
+plt.ylabel('Average Points', fontsize=12)
+plt.xticks(rotation=90, fontsize=8)  # Reduced font size for readability
+plt.legend(loc='upper right', fontsize=12)
+plt.tight_layout()
+plt.show()
