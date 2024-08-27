@@ -213,3 +213,12 @@ print(feature_importance.head())
     print(f"\n{name} Accuracy: {accuracy:.4f}")
     print(f"{name} Classification Report:")
     print(classification_report(y_test, y_pred))
+
+# Create a horizontal bar plot for feature importance
+plt.figure(figsize=(10, 8))
+sns.barplot(x='importance', y='feature', data=feature_importance.head(15), palette='viridis')
+plt.title('Top 15 Most Important Features', fontsize=16)
+plt.xlabel('Importance', fontsize=12)
+plt.ylabel('Feature', fontsize=12)
+plt.tight_layout()
+plt.show()
