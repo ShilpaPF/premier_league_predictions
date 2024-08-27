@@ -14,3 +14,7 @@ import warnings
 warnings.filterwarnings('ignore')
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
+
+# Load the dataset
+file_path = "/content/drive/MyDrive/Premier_League_Data.csv"
+df = pd.read_csv(file_path)
