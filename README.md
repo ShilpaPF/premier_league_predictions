@@ -38,3 +38,11 @@ Removes outliers using the Interquartile Range (IQR) method.
 **Returns:**
 - pandas.DataFrame: Dataframe with outliers removed.
 
+## Output
+
+The script generates visualizations and prints summaries, including:
+- Distribution of goals scored.
+- Home vs Away performance comparisons.
+- Feature importance for predictions.
+- Model accuracy and classification report.
+
