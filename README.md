@@ -46,3 +46,11 @@ The script generates visualizations and prints summaries, including:
 - Feature importance for predictions.
 - Model accuracy and classification report.
 
+## License
+
+This project is open-source 
+
+## Acknowledgements
+
+- Dataset provided by Kaggle.
+- Inspired by football analytics communities.
