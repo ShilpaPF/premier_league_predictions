@@ -127,6 +127,10 @@ for i, team in enumerate(top_10_teams):
     sns.histplot(data=team_data, x='Goals For', kde=True, bins=range(0, int(team_data['Goals For'].max()) + 2),
                  color=plt.cm.Set3(i), ax=ax)
 
+# Print average goals for top 10 teams
+print("Average goals scored by top 10 teams:")
+print(team_avg_goals.head(10)
+
     ax.set_title(team_mapping.get(team, f'Team {team}'), fontsize=10)
     ax.set_xlabel('Goals Scored', fontsize=8)
     ax.set_ylabel('Count', fontsize=8)
