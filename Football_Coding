@@ -138,3 +138,7 @@ print(team_avg_goals.head(10)
 plt.tight_layout()
 plt.show()
 
+# Print summary for goals scored by each team
+team_goals = df.groupby('Team')['Goals For'].agg(['mean', 'median', 'max'])
+print("\nGoals scored by each team:")
+print(team_goals.sort_values('mean', ascending=False))
