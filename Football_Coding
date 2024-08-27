@@ -74,3 +74,9 @@ for i in range(3):
     print(f"\nCluster {i}:")
     print(df[df['Cluster'] == i]['Team'].value_counts())
     print(df[df['Cluster'] == i][cluster_features].mean())
+
+# Convert categorical variables to numeric
+le = LabelEncoder()
+categorical_cols = ['Team', 'Opponent', 'Venue', 'Result', 'Captain', 'Formation', 'Referee', 'Competition', 'Round', 'Day']
+for col in categorical_cols:
+    df[col] = le.fit_transform(df[col].astype(str))
