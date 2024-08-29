@@ -51,18 +51,45 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_cluster)
 
 # Perform K-means clustering
-kmeans = KMeans(n_clusters=3, random_state=42)
-df['Cluster'] = kmeans.fit_predict(X_scaled)
+# Select features for clustering
+cluster_features = ['Expected Goals', 'Expected Goals Against', 'Possession', 'Shots', 'Shots on Target']
 
-# Visualize the clusters
-plt.figure(figsize=(12, 8))
-scatter = plt.scatter(df['Expected Goals'], df['Expected Goals Against'], c=df['Cluster'], cmap='viridis')
+# Normalize the features
+scaler = StandardScaler()
+X_cluster = scaler.fit_transform(df[cluster_features])
+
+# Perform K-means clustering
+kmeans = KMeans(n_clusters=3, random_state=42)
+df['Cluster'] = kmeans.fit_predict(X_cluster)
+
+# Calculate average values for each team
+team_avg = df.groupby('Team')[cluster_features].mean().reset_index()
+team_avg['Cluster'] = kmeans.predict(scaler.transform(team_avg[cluster_features]))
+
+# Visualize the clusters with team labels
+plt.figure(figsize=(11,10))
+scatter = plt.scatter(team_avg['Expected Goals'], team_avg['Expected Goals Against'], 
+                      c=team_avg['Cluster'], cmap='viridis', s=100, alpha=0.7)
+
+# Add team labels
+for idx, row in team_avg.iterrows():
+    plt.annotate(row['Team'], (row['Expected Goals'], row['Expected Goals Against']), 
+                 xytext=(5, 5), textcoords='offset points', fontsize=8, alpha=0.8)
+
 plt.xlabel('Expected Goals')
 plt.ylabel('Expected Goals Against')
-plt.title('Team Clusters based on Expected Goals')
-plt.colorbar(scatter)
+plt.title('Team Clusters based on Expected Goals (Team Averages)')
+plt.colorbar(scatter, label='Cluster')
+plt.tight_layout()
 plt.show()
 
+# Print cluster information
+for i in range(3):
+    cluster_teams = team_avg[team_avg['Cluster'] == i]['Team'].tolist()
+    print(f"\nCluster {i} Teams:")
+    print(", ".join(cluster_teams))
+    print("\nCluster Statistics:")
+    print(team_avg[team_avg['Cluster'] == i][cluster_features].mean())
 # Print cluster centroids
 centroids = scaler.inverse_transform(kmeans.cluster_centers_)
 centroid_df = pd.DataFrame(centroids, columns=cluster_features)
