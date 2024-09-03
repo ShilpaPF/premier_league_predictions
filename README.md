@@ -1,21 +1,23 @@
 # Premier League Football Predictions
 
+##Introduction
+This project explores the feasibility of using advanced machine learning techniques to predict match outcomes in the English Premier League (EPL). By leveraging a comprehensive dataset from Kaggle, the project implements models such as Random Forest, Gradient Boosting, and Support Vector Machine (SVM) to forecast match results and provide insights into team performance.
+
 ## Dataset
 
-This project uses the Premier League dataset, which contains detailed information about football matches in the English Premier League. The dataset includes various statistics for each match, such as goals scored, expected goals, possession, shots on target, and more.. 
-
 ### Dataset Source
-- Available on Kaggle: [Premier League Dataset],(https://www.kaggle.com/datasets/tanmaynema/premier-league-match-data-2019-2023)
+The dataset used in this project is sourced from Kaggle and includes detailed statistics from recent EPL seasons, such as goals scored, expected goals, possession, and more.
+Available on Kaggle: [Premier League Dataset],(https://www.kaggle.com/datasets/tanmaynema/premier-league-match-data-2019-2023)
 
 ### Data Privacy
 No personal data is used. All data is publicly available match statistics.
 
 ### Key Features
-The dataset includes 29 features.
+The dataset includes 29 features, capturing various aspects of team and player performance.
 
 ## Purpose
 
-This project aims to analyze Premier League football data to predict match outcomes and provide insights into team performance. It uses machine learning techniques, specifically a Random Forest classifier, to identify key factors influencing match results and visualizes various aspects of team and player statistics.
+The primary aim of this project is to develop predictive models to forecast EPL match outcomes with high accuracy. The project also seeks to identify key performance factors, uncover tactical patterns, and optimize strategies using data-driven insights.
 
 ## Features
 
@@ -26,7 +28,11 @@ This project aims to analyze Premier League football data to predict match outco
 - Feature importance analysis.
 
 ## Key Functions
-
+-Data preprocessing and feature engineering.
+-Exploratory Data Analysis (EDA) with visualizations.
+-Outlier removal using the Interquartile Range (IQR) method.
+-Implementation of machine learning models: Random Forest, Gradient Boosting, and SVM.
+-Feature importance analysis.
 ### remove_outliers(df, columns)
 
 Removes outliers using the Interquartile Range (IQR) method.
@@ -34,23 +40,22 @@ Removes outliers using the Interquartile Range (IQR) method.
 **Parameters:**
 - df (pandas.DataFrame): The input dataframe.
 - columns (list): List of column names to check.
-
 **Returns:**
 - pandas.DataFrame: Dataframe with outliers removed.
 
 ## Output
 
 The script generates visualizations and prints summaries, including:
-- Distribution of goals scored.
-- Home vs Away performance comparisons.
-- Feature importance for predictions.
-- Model accuracy and classification report.
+-Distribution of goals scored.
+-Home vs. Away performance comparisons.
+-Feature importance for predictions.
+-Model accuracy and classification report.
 
 ## License
 
-This project is open-source 
+This project is open-source and released under the MIT License.
 
 ## Acknowledgements
 
 - Dataset provided by Kaggle.
-- Inspired by football analytics communities.
+- Inspired by football analytics communities and previous research in sports analytics.
