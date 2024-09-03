@@ -1,4 +1,4 @@
-#Import necessary libraries
+# Import necessary libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,6 +22,13 @@ df = pd.read_csv(file_path)
 # Create a mapping from numeric codes to actual team names
 team_mapping = dict(enumerate(df['Team'].unique()))
 
+# Display basic information about the dataset
+print(df.info())
+print(df.describe())
+
+# Check for missing values
+print(df.isnull().sum())
+
 # Convert Date to datetime
 df['Date'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
 
@@ -33,12 +40,9 @@ df['Goal_Difference'] = df['Goals For'] - df['Goals Against']
 df['Goal_Ratio'] = df['Goals For'] / (df['Goals Against'] + 1)  # Add 1 to avoid division by zero
 df['Shot_Accuracy'] = df['Shots on Target'] / df['Shots']
 df['Expected_Goal_Difference'] = df['Expected Goals'] - df['Expected Goals Against']
-# Display basic information about the dataset
-print(df.info())
-print(df.describe())
 
-# Check for missing values
-print(df.isnull().sum()
+# Possession Ratio Feature
+df['Possession_Ratio'] = df['Possession'] / (df['Possession'] + (100 - df['Possession']))
 
 #Select features for clustering
 cluster_features = ['Goals For', 'Goals Against', 'Expected Goals', 'Expected Goals Against', 'Possession', 'Shots', 'Shots on Target']
@@ -50,7 +54,6 @@ X_cluster = df[cluster_features]
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_cluster)
 
-# Perform K-means clustering
 # Select features for clustering
 cluster_features = ['Expected Goals', 'Expected Goals Against', 'Possession', 'Shots', 'Shots on Target']
 
@@ -68,12 +71,12 @@ team_avg['Cluster'] = kmeans.predict(scaler.transform(team_avg[cluster_features]
 
 # Visualize the clusters with team labels
 plt.figure(figsize=(11,10))
-scatter = plt.scatter(team_avg['Expected Goals'], team_avg['Expected Goals Against'], 
+scatter = plt.scatter(team_avg['Expected Goals'], team_avg['Expected Goals Against'],
                       c=team_avg['Cluster'], cmap='viridis', s=100, alpha=0.7)
 
 # Add team labels
 for idx, row in team_avg.iterrows():
-    plt.annotate(row['Team'], (row['Expected Goals'], row['Expected Goals Against']), 
+    plt.annotate(row['Team'], (row['Expected Goals'], row['Expected Goals Against']),
                  xytext=(5, 5), textcoords='offset points', fontsize=8, alpha=0.8)
 
 plt.xlabel('Expected Goals')
@@ -90,6 +93,7 @@ for i in range(3):
     print(", ".join(cluster_teams))
     print("\nCluster Statistics:")
     print(team_avg[team_avg['Cluster'] == i][cluster_features].mean())
+
 # Print cluster centroids
 centroids = scaler.inverse_transform(kmeans.cluster_centers_)
 centroid_df = pd.DataFrame(centroids, columns=cluster_features)
@@ -128,9 +132,11 @@ print("Shape before removing outliers:", df.shape)
 df = remove_outliers(df, numeric_columns)
 print("Shape after removing outliers:", df.shape)
 
+
 # Display all column names and their data types
 print("All columns and their data types:")
 print(df.dtypes)
+
 
 # Identify numeric columns
 numeric_cols = df.select_dtypes(include=[np.number]).columns
@@ -181,15 +187,24 @@ for i, team in enumerate(top_10_teams):
     sns.histplot(data=team_data, x='Goals For', kde=True, bins=range(0, int(team_data['Goals For'].max()) + 2),
                  color=plt.cm.Set3(i), ax=ax)
 
-# Print average goals for top 10 teams
-print("Average goals scored by top 10 teams:")
-print(team_avg_goals.head(10)
-
     ax.set_title(team_mapping.get(team, f'Team {team}'), fontsize=10)
     ax.set_xlabel('Goals Scored', fontsize=8)
     ax.set_ylabel('Count', fontsize=8)
 
 plt.tight_layout()
+plt.show()
+
+# Print average goals for top 10 teams
+print("Average goals scored by top 10 teams:")
+print(team_avg_goals.head(10))
+
+# Visualize home vs away performance
+home_performance = df[df['Venue'] == 0]['Goals For'].mean()
+away_performance = df[df['Venue'] == 1]['Goals For'].mean()
+plt.figure(figsize=(8, 5))
+plt.bar(['Home', 'Away'], [home_performance, away_performance])
+plt.title('Average Goals Scored: Home vs Away', fontsize=14)
+plt.ylabel('Average Goals', fontsize=12)
 plt.show()
 
 # Print summary for goals scored by each team
@@ -221,11 +236,13 @@ features = ['Venue', 'Opponent', 'Expected Goals', 'Expected Goals Against', 'Po
 X = df[features]
 y = df['Result']
 
-# Split the data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 # Check for NaN values
 print("Columns with NaN values:")
 print(X.isna().sum())
+
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Impute missing values
 imputer = SimpleImputer(strategy='mean')
@@ -236,7 +253,6 @@ X_test_imputed = imputer.transform(X_test)
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train_imputed)
 X_test_scaled = scaler.transform(X_test_imputed)
-
 
 # Define models
 rf = RandomForestClassifier(random_state=42)
@@ -254,6 +270,10 @@ models = {
 for name, model in models.items():
     model.fit(X_train_scaled, y_train)
     y_pred = model.predict(X_test_scaled)
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"\n{name} Accuracy: {accuracy:.4f}")
+    print(f"{name} Classification Report:")
+    print(classification_report(y_test, y_pred))
 
 # Feature importance (for Random Forest)
 feature_importance = pd.DataFrame({
@@ -263,10 +283,6 @@ feature_importance = pd.DataFrame({
 
 print("\nTop 5 Most Important Features:")
 print(feature_importance.head())
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f"\n{name} Accuracy: {accuracy:.4f}")
-    print(f"{name} Classification Report:")
-    print(classification_report(y_test, y_pred))
 
 # Create a horizontal bar plot for feature importance
 plt.figure(figsize=(10, 8))
@@ -276,6 +292,7 @@ plt.xlabel('Importance', fontsize=12)
 plt.ylabel('Feature', fontsize=12)
 plt.tight_layout()
 plt.show()
+
 
 # Create a correlation heatmap
 plt.figure(figsize=(12, 10))
@@ -319,13 +336,17 @@ axs[2, 1].set_xlabel('Number of Shots')
 plt.tight_layout()
 plt.show()
 
+
+
 # Create the home vs away performance plot
 plt.figure(figsize=(8, 5))
 df['Points'] = df['Result'].map({0: 0, 1: 1, 2: 3})
 
+
 # Calculate home and away performance separately
 home_performance = df[df['Venue'] == 0].groupby('Team')['Points'].mean()
 away_performance = df[df['Venue'] == 1].groupby('Team')['Points'].mean()
+
 
 # Combine home and away performance
 performance = pd.DataFrame({
@@ -333,12 +354,14 @@ performance = pd.DataFrame({
     'Away': away_performance
 }).reset_index()
 
+
 # Sort teams by total performance (home + away)
 performance['Total'] = performance['Home'] + performance['Away']
 performance = performance.sort_values('Total', ascending=False)
 # Create the plot
 sns.barplot(data=performance, x='Team', y='Home', color='blue', label='Home')
 sns.barplot(data=performance, x='Team', y='Away', color='orange', label='Away')
+
 plt.title('Home vs Away Performance for Teams', fontsize=16)
 plt.xlabel('Team', fontsize=12)
 plt.ylabel('Average Points', fontsize=12)
